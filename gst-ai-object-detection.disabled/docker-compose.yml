@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+    gst-ai-object-detection:
+      image: hub.foundries.io/lmp/qimsdk:v94
+      restart: always
+      network_mode: "host"
+      tty: true
+      stop_grace_period: 5s
+      command: gst-ai-object-detection -t 3
+      volumes:
+        - /opt:/opt

@@ -1,0 +1,17 @@
+version: '3.2'
+
+services:
+    gst-ai-classification:
+      image: hub.foundries.io/lmp/qimsdk:v94
+      restart: always
+      network_mode: "host"
+      tty: true
+      stop_grace_period: 5s
+      # Default Model
+      # command: gst-ai-classification
+      # AIHub Mobilenet Model
+      command: gst-ai-classification -f 2 -t 2 -m /opt/mobilenet_v2_quantized.tflite -l /opt/imagenet_labels.txt
+      # AIHub Inceptionv3 Model
+      # command: gst-ai-classification -f 2 -t 2 -m /opt/inception_v3_quantized.tflite -l /opt/imagenet_labels.txt
+      volumes:
+        - /opt:/opt

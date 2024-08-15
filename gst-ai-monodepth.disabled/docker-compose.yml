@@ -1,0 +1,15 @@
+version: '3.2'
+
+services:
+    gst-ai-monodepth:
+      image: hub.foundries.io/lmp/qimsdk:v94
+      restart: always
+      network_mode: "host"
+      tty: true
+      stop_grace_period: 5s
+      # DLC Model
+      # command: gst-ai-monodepth --ml-framework=1 --model=/opt/midasv2.dlc --labels=/opt/monodepth.labels
+      # TFlite Model
+      command: gst-ai-monodepth --ml-framework=2 --model=/opt/midasv2.tflite --labels=/opt/monodepth.labels
+      volumes:
+        - /opt:/opt
