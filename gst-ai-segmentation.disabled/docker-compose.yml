@@ -2,14 +2,14 @@ version: '3.2'
 
 services:
     gst-ai-segmentation:
-      image: hub.foundries.io/lmp/qimsdk:v94
+      image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
       restart: always
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
       # DLC Model
-      # command: gst-ai-segmentation --ml-framework=1 --model=/opt/deeplabv3_resnet50.dlc --labels=/opt/deeplabv3_resnet50.labels
+      # command: /opt/gst-ai-segmentation --ml-framework=1 --model=/opt/deeplabv3_resnet50.dlc --labels=/opt/deeplabv3_resnet50.labels
       # TFlite Model
-      command: gst-ai-segmentation --ml-framework=2 --model-format=1 --model=/opt/deeplabv3_resnet50.tflite --labels=/opt/deeplabv3_resnet50.labels
+      command: /opt/gst-ai-segmentation --ml-framework=2 --model-format=1 --model=/opt/deeplabv3_resnet50.tflite --labels=/opt/deeplabv3_resnet50.labels
       volumes:
         - /opt:/opt

@@ -2,9 +2,9 @@ version: '3.2'
 
 services:
     gst-multi-camera-example:
-      image: hub.foundries.io/lmp/qimsdk:v94
+      image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
       restart: always
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: gst-multi-camera-example -o 0
+      command: /opt/gst-multi-camera-example -o 0

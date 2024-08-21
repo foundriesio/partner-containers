@@ -2,11 +2,11 @@ version: '3.2'
 
 services:
     gst-ai-pose-detection:
-      image: hub.foundries.io/lmp/qimsdk:v94
+      image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
       restart: always
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: gst-ai-pose-detection
+      command: /opt/gst-ai-pose-detection
       volumes:
         - /opt:/opt

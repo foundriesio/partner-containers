@@ -2,11 +2,11 @@ version: '3.2'
 
 services:
     gst-concurrent-videoplay-composition:
-      image: hub.foundries.io/lmp/qimsdk:v94
+      image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
       restart: always
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: gst-concurrent-videoplay-composition -c 4 -i /opt/beach.mp4 -i /opt/birds.mp4 -i /opt/cloud.mp4 -i /opt/water.mp4
+      command: /opt/gst-concurrent-videoplay-composition -c 4 -i /opt/beach.mp4 -i /opt/birds.mp4 -i /opt/cloud.mp4 -i /opt/water.mp4
       volumes:
         - /opt:/opt
