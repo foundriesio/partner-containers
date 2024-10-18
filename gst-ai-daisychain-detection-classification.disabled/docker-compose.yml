@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst-ai-daisychain-detection-classification --camera
+      command: /opt/gst/gst-ai-daisychain-detection-classification --camera
       volumes:
         - /opt:/opt

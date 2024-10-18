@@ -10,8 +10,8 @@ services:
       # Default Model
       # command: /opt/gst-ai-classification
       # AIHub Mobilenet Model
-      command: /opt/gst-ai-classification -f 2 -t 2 -m /opt/mobilenet_v2_quantized.tflite -l /opt/imagenet_labels.txt
+      command:  /opt/gst/gst-ai-classification -f 2 -m /opt/gst/inception_v3_quantized.tflite -l /opt/gst/classification.labels
       # AIHub Inceptionv3 Model
-      # command: /opt/gst-ai-classification -f 2 -t 2 -m /opt/inception_v3_quantized.tflite -l /opt/imagenet_labels.txt
+      # command: /opt/gst/gst-ai-classification -f 2 -m /opt/gst/inception_v3_quantized.tflite -l /opt/gst/imagenet_labels.txt
       volumes:
         - /opt:/opt

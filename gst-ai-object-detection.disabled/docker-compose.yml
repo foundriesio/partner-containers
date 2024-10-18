@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst-ai-object-detection -t 3
+      command: /opt/gst/gst-ai-object-detection -t 3
       volumes:
         - /opt:/opt
