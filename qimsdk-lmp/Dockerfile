@@ -48,9 +48,19 @@ RUN \
 #######################################################################
 FROM apt-updated as ai-hub-models
 
-RUN apt install -y wget
+RUN apt install -y wget unzip
 
-RUN wget -O- https://cdn.foundries.io/aihub-models/models1.tar.gz | tar -xz
+RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.2-rel/GA1.2-rel.zip > models.zip && unzip models.zip && mv GA1.2-rel/QCS6490 ./models && rm models.zip
+RUN wget -O- https://cdn.foundries.io/aihub-models/models-2024-10-18.tar.gz | tar -xzv
+RUN wget -O- https://cdn.foundries.io/aihub-models/media-2024-10-18.tar.gz | tar -xzv && mv media/* models/ && rmdir media
+
+# for mono-depth sample
+RUN wget -O models/midasv2.tflite https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/midasv2.tflite
+RUN wget -O models/midasv2.dlc https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/midasv2.dlc
+RUN wget -O models/monodepth.labels https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/monodepth.labels
+RUN wget -O models/inception_v3_quantized.tflite 'https://huggingface.co/qualcomm/Inception-v3-Quantized/resolve/main/Inception-v3-Quantized.tflite'
+RUN wget -O models/yolov8_det_quantized.tflite 'https://huggingface.co/qualcomm/YOLOv8-Detection-Quantized/raw/main/YOLOv8-Detection-Quantized.tflite'
+
 RUN chown 1000:1000 models/*
 
 #######################################################################
