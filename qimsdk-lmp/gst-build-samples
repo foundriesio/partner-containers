@@ -1,0 +1,33 @@
+#!/bin/sh -ex
+
+CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=/apps -DENABLE_AUDIO=1 -DENABLE_CAMERA=1 -DENABLE_DISPLAY=1 -DENABLE_ML=1 -DENABLE_VIDEO_ENCODE=1 -DENABLE_VIDEO_DECODE=1 -DGST_VERSION_REQUIRED=1"
+
+cd /src/gst-plugins-qti-oss/gst-sample-apps
+
+# The webrtc demo requires the "plugins-bad" package which is a huge install.
+# Disable this to keep things small/easy
+rm -rf gst-webrtc-sendrecv-example
+
+# These require qmmf-sdk which is also a large/tricky install
+rm -rf gst-camera-burst-capture-example gst-camera-metadata-example
+
+APPS=$(ls)
+
+# Build the common lib everything needs first
+cd gst-sample-apps-utils
+cmake ${CMAKE_ARGS}
+make install
+[ -e /usr/include/gst ] || ln -s /gstreamer-1.0/gst /usr/include/gst
+cp /apps/lib/* /usr/local/lib/
+cd ..
+
+for app in ${APPS} ; do
+	cd ${app}
+	# update default path to where we store models
+	[ -f main.c ] && sed -i 's/\/opt\//\/opt\/gst\//' main.c
+	cmake ${CMAKE_ARGS}
+	make install
+	cd ..
+done
+
+echo "== Sample apps are ready to be modified under `pwd` by running make under the subdirectories"
