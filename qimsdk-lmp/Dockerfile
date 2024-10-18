@@ -8,9 +8,11 @@ RUN \
 		gdb \
 		git \
 		gstreamer1.0-tools \
+		libjson-glib-dev \
 		libglib2.0-dev \
 		libgstreamer1.0-dev \
 		libgstreamer-plugins-base1.0-dev \
+		libsoup2.4-dev \
 		openssh-client \
 		openssh-server \
 		sshpass \
@@ -32,16 +34,15 @@ RUN apt update
 
 #######################################################################
 FROM apt-updated as gst-sample-apps
-COPY gst-sample-apps.diff /src/
 
 RUN apt install -y git
 
 RUN \
+	mkdir -p /src && \
 	cd /src && \
 	git clone https://git.codelinaro.org/clo/le/platform/vendor/qcom-opensource/gst-plugins-qti-oss.git && \
 	cd gst-plugins-qti-oss && \
-	git checkout imsdk.lnx.2.0.0.r1-rel && \
-	patch -p1 < /src/gst-sample-apps.diff && \
+	git checkout imsdk.lnx.2.0.0.r2-rel && \
 	chown -R 1000:1000 /src
 
 #######################################################################
@@ -58,13 +59,10 @@ COPY --from=gst-sample-apps /src /src
 COPY --from=ai-hub-models /models /src/models
 
 WORKDIR /src/gst-plugins-qti-oss/gst-sample-apps
-COPY dev-shell gst-configure-env run-on-host.sh /usr/local/bin/
+COPY dev-shell gst-build-samples run-on-host.sh /usr/local/bin/
 
 RUN mkdir -p /apps
 
-RUN gst-configure-env \
-    && cd build \
-    && make \
-    && make install
+RUN gst-build-samples
 
 ENTRYPOINT ["/bin/sh", "/usr/local/bin/run-on-host.sh"]
