@@ -7,4 +7,4 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst-multi-camera-example -o 0
+      command: /opt/gst/gst-multi-camera-example -o 0
