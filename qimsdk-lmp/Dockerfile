@@ -59,7 +59,6 @@ RUN wget -O models/midasv2.tflite https://qaihub-public-assets.s3.us-west-2.amaz
 RUN wget -O models/midasv2.dlc https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/midasv2.dlc
 RUN wget -O models/monodepth.labels https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/monodepth.labels
 RUN wget -O models/inception_v3_quantized.tflite 'https://huggingface.co/qualcomm/Inception-v3-Quantized/resolve/main/Inception-v3-Quantized.tflite'
-RUN wget -O models/yolov8_det_quantized.tflite 'https://huggingface.co/qualcomm/YOLOv8-Detection-Quantized/raw/main/YOLOv8-Detection-Quantized.tflite'
 
 RUN chown 1000:1000 models/*
 
