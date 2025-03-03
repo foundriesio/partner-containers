@@ -42,7 +42,7 @@ RUN \
 	cd /src && \
 	git clone https://git.codelinaro.org/clo/le/platform/vendor/qcom-opensource/gst-plugins-qti-oss.git && \
 	cd gst-plugins-qti-oss && \
-	git checkout imsdk.lnx.2.0.0.r2-rel && \
+	git checkout 9fb4a7a403f9da9ee48afd6817089be5f944a127 && \
 	chown -R 1000:1000 /src
 
 #######################################################################
