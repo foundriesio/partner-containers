@@ -75,4 +75,4 @@ RUN mkdir -p /apps
 
 RUN gst-build-samples
 
-ENTRYPOINT ["/bin/sh", "/usr/local/bin/run-on-host.sh"]
+ENTRYPOINT ["/usr/local/bin/run-on-host.sh"]
