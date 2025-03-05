@@ -3,7 +3,7 @@ version: '3.2'
 services:
     gst-ai-monodepth:
       image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
-      restart: always
+      restart: unless-stopped
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
