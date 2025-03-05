@@ -1,0 +1,8 @@
+{
+  "camera": 0,
+  "ml-framework": "snpe",
+  "model": "/opt/gst/deeplabv3_resnet50.dlc",
+  "labels": "/opt/gst/deeplabv3_resnet50.labels",
+  "threshold": 40,
+  "runtime": "dsp"
+}

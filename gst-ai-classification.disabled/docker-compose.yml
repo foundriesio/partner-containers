@@ -7,11 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      # Default Model
-      # command: /opt/gst/gst-ai-classification
-      # AIHub Mobilenet Model
-      command:  /opt/gst/gst-ai-classification -f 2 -m /opt/gst/inception_v3_quantized.tflite -l /opt/gst/classification.labels
-      # AIHub Inceptionv3 Model
-      # command: /opt/gst/gst-ai-classification -f 2 -m /opt/gst/inception_v3_quantized.tflite -l /opt/gst/imagenet_labels.txt
+      command:  /opt/gst/gst-ai-classification --config-file=/var/sota/compose-apps/gst-ai-classification/config.json
       volumes:
         - /opt:/opt

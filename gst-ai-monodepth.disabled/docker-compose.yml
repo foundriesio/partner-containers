@@ -7,9 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      # DLC Model
-      # command: /opt/gst/gst-ai-monodepth --ml-framework=1 --model=/opt/gst/midasv2.dlc --labels=/opt/gst/monodepth.labels
-      # TFlite Model
-      command: /opt/gst/gst-ai-monodepth --ml-framework=2 --model=/opt/gst/midasv2.tflite --labels=/opt/gst/monodepth.labels
+      command: /opt/gst/gst-ai-monodepth --config-file /var/sota/compose-apps/gst-ai-monodepth/config.json
       volumes:
         - /opt:/opt

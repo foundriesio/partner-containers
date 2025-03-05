@@ -42,7 +42,7 @@ RUN \
 	cd /src && \
 	git clone https://git.codelinaro.org/clo/le/platform/vendor/qcom-opensource/gst-plugins-qti-oss.git && \
 	cd gst-plugins-qti-oss && \
-	git checkout 9fb4a7a403f9da9ee48afd6817089be5f944a127 && \
+	git checkout LE.QCQIMPRODUCT.1.0.r1-04200-QIM.0 && \
 	chown -R 1000:1000 /src
 
 #######################################################################
@@ -50,7 +50,8 @@ FROM apt-updated as ai-hub-models
 
 RUN apt install -y wget unzip
 
-RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.2-rel/GA1.2-rel.zip > models.zip && unzip models.zip && mv GA1.2-rel/QCS6490 ./models && rm models.zip
+RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.3-rel/v2.29_QCS6490.zip > models.zip && unzip models.zip && mv v2.29_QCS6490/ ./models && rm models.zip
+RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.3-rel/labels.zip > labels.zip && unzip labels.zip && rm labels.zip && mv labels/* models/
 RUN wget -O- https://cdn.foundries.io/aihub-models/models-2024-10-18.tar.gz | tar -xzv
 RUN wget -O- https://cdn.foundries.io/aihub-models/media-2024-10-18.tar.gz | tar -xzv && mv media/* models/ && rmdir media
 

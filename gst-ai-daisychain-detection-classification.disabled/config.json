@@ -1,0 +1,6 @@
+{
+  "detection-model": "/opt/gst/yolov5.tflite",
+  "detection-labels": "/opt/gst/yolov5.labels",
+  "classification-model": "/opt/gst/inceptionv3.tflite",
+  "classification-labels": "/opt/gst/classification.labels"
+}

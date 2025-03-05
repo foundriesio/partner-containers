@@ -1,0 +1,7 @@
+{
+  "camera": 0,
+  "ml-framework": "snpe",
+  "model": "/opt/gst/midasv2.dlc",
+  "labels": "/opt/gst/monodepth.labels",
+  "runtime": "dsp"
+}
