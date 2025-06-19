@@ -2,8 +2,8 @@
   "camera": 0,
   "ml-framework": "snpe",
   "yolo-model-type": "yolonas",
-  "model": "/opt/gst/yolonas.dlc",
-  "labels": "/opt/gst/yolonas.labels",
+  "model": "/opt/gst/models/yolonas.dlc",
+  "labels": "/opt/gst/labels/yolonas.labels",
   "threshold": 40,
   "runtime": "dsp"
 }

@@ -1,8 +1,8 @@
 {
   "camera": 0,
   "ml-framework": "tflite",
-  "model": "/opt/gst/hrnet_pose_quantized.tflite",
-  "labels": "/opt/gst/hrnet_pose.labels",
-  "threshold": 40,
+  "model": "/opt/gst/models/hrnet_pose_quantized.tflite",
+  "labels": "/opt/gst/labels/hrnet_pose.labels",
+  "threshold": 51,
   "runtime": "dsp"
 }

@@ -1,7 +1,8 @@
 {
   "camera": 0,
-  "ml-framework": "snpe",
-  "model": "/opt/gst/midasv2.dlc",
-  "labels": "/opt/gst/monodepth.labels",
+  "ml-framework": "tflite",
+  "model": "/opt/gst/models/midas_quantized.tflite",
+  "labels": "/opt/gst/labels/monodepth.labels",
+  "constants": "Midas,q-offsets=<0.0>,q-scales=<6.846843242645264>;",
   "runtime": "dsp"
 }

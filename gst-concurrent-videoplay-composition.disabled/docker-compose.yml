@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst/gst-concurrent-videoplay-composition -c 4 -i /opt/gst/beach.mp4 -i /opt/gst/birds.mp4 -i /opt/gst/cloud.mp4 -i /opt/gst/water.mp4
+      command: /opt/gst/gst-concurrent-videoplay-composition -c 4 -i /opt/gst/media/beach.mp4 -i /opt/gst/media/birds.mp4 -i /opt/gst/media/cloud.mp4 -i /opt/gst/media/water.mp4
       volumes:
         - /opt:/opt

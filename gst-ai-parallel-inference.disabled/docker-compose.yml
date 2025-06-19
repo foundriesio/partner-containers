@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst/gst-ai-parallel-inference --camera 0 --classification-model-path /opt/gst/inception_v3_quantized.tflite --classification-labels-path /opt/gst/classification.labels --object-detection-model-path /opt/gst/yolov5.tflite --object-detection-labels-path /opt/gst/yolov5.labels --pose-detection-model-path /opt/gst/hrnet_pose_quantized.tflite --pose-detection-labels-path /opt/gst/hrnet_pose.labels --segmentation-model-path /opt/gst/deeplabv3_resnet50.tflite --segmentation-labels-path /opt/gst/deeplabv3_resnet50.labels
+      command: command: /opt/gst/gst-ai-parallel-inference --config-file /var/sota/compose-apps/gst-ai-parallel-inference/config.json
       volumes:
         - /opt:/opt

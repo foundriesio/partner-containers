@@ -1,8 +1,9 @@
 {
   "camera": 0,
-  "ml-framework": "snpe",
-  "model": "/opt/gst/deeplabv3_resnet50.dlc",
-  "labels": "/opt/gst/deeplabv3_resnet50.labels",
-  "threshold": 40,
-  "runtime": "dsp"
+  "ml-framework": "tflite",
+  "model": "/opt/gst/models/deeplabv3_plus_mobilenet_quantized.tflite",
+  "labels": "/opt/gst/labels/deeplabv3_resnet50.labels",
+  "constants": "deeplab,q-offsets=<0.0>,q-scales=<1.0>;",
+  "runtime": "dsp",
+  "video-disposition":"stretch"
 }

@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
-CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=/apps -DENABLE_AUDIO=1 -DENABLE_CAMERA=1 -DENABLE_DISPLAY=1 -DENABLE_ML=1 -DENABLE_VIDEO_ENCODE=1 -DENABLE_VIDEO_DECODE=1 -DGST_VERSION_REQUIRED=1"
+CMAKE_ARGS="-DCMAKE_INSTALL_PREFIX=/apps -DGST_PLUGINS_QTI_OSS_INSTALL_BINDIR=/apps/bin -DGST_PLUGINS_QTI_OSS_INSTALL_CONFIG=/apps/configs -DGST_VERSION_REQUIRED=1"
 
 cd /src/gst-plugins-qti-oss/gst-sample-apps
 
@@ -9,7 +9,7 @@ cd /src/gst-plugins-qti-oss/gst-sample-apps
 rm -rf gst-webrtc-sendrecv-example
 
 # These require qmmf-sdk which is also a large/tricky install
-rm -rf gst-camera-burst-capture-example gst-camera-metadata-example
+rm -rf gst-camera-burst-capture-example gst-camera-metadata-example gst-camera-per-port-example
 
 APPS=$(ls)
 
@@ -24,7 +24,13 @@ cd ..
 for app in ${APPS} ; do
 	cd ${app}
 	# update default path to where we store models
-	[ -f main.c ] && sed -i 's/\/opt\//\/opt\/gst\//' main.c
+	if [ -f main.c ]; then
+		# Replace default path for models, labels, media and configs
+		sed -i 's/\/etc\/labels/\/opt\/gst\/labels/' main.c *.json
+		sed -i 's/\/etc\/models/\/opt\/gst\/models/' main.c *.json
+		sed -i 's/\/etc\/media/\/opt\/gst\/media/' main.c *.json
+		sed -i 's/\/etc\/configs/\/opt\/gst\/configs/' main.c *.json
+	fi
 	cmake ${CMAKE_ARGS}
 	make install
 	cd ..
