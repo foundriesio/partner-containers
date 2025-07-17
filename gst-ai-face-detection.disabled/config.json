@@ -1,0 +1,9 @@
+{
+  "camera": 0,
+  "ml-framework": "tflite",
+  "model": "/opt/gst/models/face_det_lite_quantized.tflite",
+  "labels": "/opt/gst/labels/face_detection.labels",
+  "constants": "qfd,q-offsets=<212.0, 13.0, 104.0>,q-scales=<0.03522835671901703, 0.2084927260875702, 0.14496992528438568>;",
+  "threshold": 51,
+  "runtime": "dsp"
+}

@@ -1,4 +1,4 @@
-FROM debian:bullseye as base
+FROM debian:bullseye AS base
 
 RUN \
 	apt update && \
@@ -29,11 +29,22 @@ RUN \
 	echo "fio:fio" | chpasswd
 
 #######################################################################
-FROM debian:bullseye as apt-updated
+FROM debian:bullseye AS apt-updated
+
+# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.4-rel
+# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70018-50/overview.html (QLI 1.4 release)
+# Dependencies: Qualcomm AI® Runtime SDK v2.32 and LiteRT (or TFLite) v2.16.1
+# NOTE: This is located in the apt-updated build step for inheritance reasons
+ARG gst_plugins_qti_oss_tag=LE.QCQIMPRODUCT.1.0.r1-05900-QIM.0
+ARG qli_sample_apps_release=GA1.4-rel
+ARG qair_sdk_release=v2.32
+ARG qli_machine=QCS6490
+ARG hf_model_tag=v0.32.0
+
 RUN apt update
 
 #######################################################################
-FROM apt-updated as gst-sample-apps
+FROM apt-updated AS gst-sample-apps
 
 RUN apt install -y git
 
@@ -42,34 +53,35 @@ RUN \
 	cd /src && \
 	git clone https://git.codelinaro.org/clo/le/platform/vendor/qcom-opensource/gst-plugins-qti-oss.git && \
 	cd gst-plugins-qti-oss && \
-	git checkout LE.QCQIMPRODUCT.1.0.r1-05300-QIM.0 && \
+	git checkout ${gst_plugins_qti_oss_tag} && \
 	chown -R 1000:1000 /src
 
 #######################################################################
-FROM apt-updated as ai-hub-models
+FROM apt-updated AS ai-hub-models
 
 RUN apt install -y wget unzip
 
-RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.4-rel/v2.32_QCS6490.zip > models.zip && unzip models.zip && mv v2.32_QCS6490/ ./models && rm models.zip
-RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.4-rel/labels.zip > labels.zip && unzip labels.zip && rm labels.zip && cp labels/yolonas.labels labels/yolov8.labels
-RUN wget -O- https://cdn.foundries.io/aihub-models/models-2024-10-18.tar.gz | tar -xzv && mv models/*.labels labels/
+RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/${qli_sample_apps_release}/${qair_sdk_release}_${qli_machine}.zip > models.zip && unzip models.zip && mv ${qair_sdk_release}_${qli_machine}/ ./models && rm models.zip
+RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/${qli_sample_apps_release}/labels.zip > labels.zip && unzip labels.zip && rm labels.zip
 RUN wget -O- https://cdn.foundries.io/aihub-models/media-2024-10-18.tar.gz | tar -xzv
 
-RUN wget -O models/inception_v3_quantized.tflite https://huggingface.co/qualcomm/Inception-v3-Quantized/resolve/main/Inception-v3-Quantized.tflite
-RUN wget -O models/deeplabv3_plus_mobilenet_quantized.tflite https://huggingface.co/qualcomm/DeepLabV3-Plus-MobileNet-Quantized/resolve/main/DeepLabV3-Plus-MobileNet-Quantized.tflite
-RUN wget -O models/midas_quantized.tflite https://huggingface.co/qualcomm/Midas-V2-Quantized/resolve/main/Midas-V2-Quantized.tflite
-RUN wget -O models/hrnet_pose_quantized.tflite https://huggingface.co/qualcomm/HRNetPoseQuantized/resolve/main/HRNetPoseQuantized.tflite
-RUN wget -O models/midasv2.dlc https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/midasv2.dlc
-RUN wget -O models/quicksrnetsmall_quantized.tflite https://huggingface.co/qualcomm/QuickSRNetSmall-Quantized/resolve/main/QuickSRNetSmall-Quantized.tflite
-RUN wget -O models/face_det_lite_quantized.tflite https://huggingface.co/qualcomm/Lightweight-Face-Detection-Quantized/resolve/main/Lightweight-Face-Detection-Quantized.tflite
-RUN wget -O models/mobilenet_v2_quantized.tflite https://huggingface.co/qualcomm/MobileNet-v2-Quantized/resolve/main/MobileNet-v2-Quantized.tflite
-RUN wget -O models/facemap_3dmm_quantized.tflite https://huggingface.co/qualcomm/Facial-Landmark-Detection-Quantized/resolve/main/Facial-Landmark-Detection-Quantized.tflite
-RUN wget -O models/face_attrib_net_quantized.tflite https://huggingface.co/qualcomm/Facial-Attribute-Detection-Quantized/resolve/main/Facial-Attribute-Detection-Quantized.tflite
-RUN wget -O models/yamnet.tflite https://huggingface.co/qualcomm/YamNet/resolve/main/YamNet.tflite
-RUN wget -O models/yolox_quantized.tflite https://huggingface.co/qualcomm/Yolo-X/resolve/2885648dda847885e6fd936324856b519d239ee1/Yolo-X_w8a8.tflite
-RUN wget -O labels/monodepth.labels https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/midas/midasv2_linux_assets/monodepth.labels
-RUN wget -O labels/detection.labels https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/labels/detection.labels
+# HuggingFace TFLITE models
+RUN wget -O models/face_attrib_net_quantized.tflite https://huggingface.co/qualcomm/Facial-Attribute-Detection/resolve/${hf_model_tag}/Facial-Attribute-Detection_w8a8.tflite
+RUN wget -O models/face_det_lite_quantized.tflite https://huggingface.co/qualcomm/Lightweight-Face-Detection/resolve/${hf_model_tag}/Lightweight-Face-Detection_w8a8.tflite
+RUN wget -O models/facemap_3dmm_quantized.tflite https://huggingface.co/qualcomm/Facial-Landmark-Detection/resolve/${hf_model_tag}/Facial-Landmark-Detection_w8a8.tflite
+RUN wget -O models/ffnet_78s_lowres_quantized.tflite https://huggingface.co/qualcomm/FFNet-78S-LowRes/resolve/${hf_model_tag}/FFNet-78S-LowRes_w8a8.tflite
+RUN wget -O models/hrnet_pose_quantized.tflite https://huggingface.co/qualcomm/HRNetPose/resolve/${hf_model_tag}/HRNetPose_w8a8.tflite
+RUN wget -O models/inception_v3_quantized.tflite https://huggingface.co/qualcomm/Inception-v3/resolve/${hf_model_tag}/Inception-v3_w8a8.tflite
+RUN wget -O models/midas_quantized.tflite https://huggingface.co/qualcomm/Midas-V2/resolve/${hf_model_tag}/Midas-V2_w8a8.tflite
+RUN wget -O models/quicksrnetsmall_quantized.tflite https://huggingface.co/qualcomm/QuickSRNetSmall/resolve/${hf_model_tag}/QuickSRNetSmall_w8a8.tflite
+RUN wget -O models/yamnet.tflite https://huggingface.co/qualcomm/YamNet/resolve/${hf_model_tag}/YamNet.tflite
+RUN wget -O models/yolox_quantized.tflite https://huggingface.co/qualcomm/Yolo-X/resolve/${hf_model_tag}/Yolo-X_w8a8.tflite
 
+# Extra label files from Github
+RUN wget -O labels/monodepth.labels https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/tags/${qli_sample_apps_release}/artifacts/labels/monodepth.labels
+RUN wget -O labels/detection.labels https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/tags/${qli_sample_apps_release}/artifacts/labels/detection.labels
+
+# Media files
 RUN mkdir -p data media
 RUN wget -O data/blendShape.bin https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/data/blendShape.bin
 RUN wget -O data/meanFace.bin https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/data/meanFace.bin
@@ -78,6 +90,9 @@ RUN wget -O media/video.mp4 https://raw.githubusercontent.com/quic/sample-apps-f
 RUN wget -O media/video1.mp4 https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/videos/video1.mp4
 RUN wget -O media/video-flac.mp4 https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/videos/video-flac.mp4
 RUN wget -O media/video-mp3.mp4 https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/videos/video-mp3.mp4
+
+# Fix locations
+RUN sed -i 's|/etc/data/|/opt/gst/data/|g' labels/face_landmark.labels
 
 RUN chown 1000:1000 models/* labels/* data/* media/*
 
@@ -95,8 +110,5 @@ COPY dev-shell gst-build-samples run-on-host.sh /usr/local/bin/
 RUN mkdir -p /apps
 
 RUN gst-build-samples
-
-# YOLOv8 needs to be manually exported by the user
-#COPY yolov8_det_quantized.tflite /src/models
 
 ENTRYPOINT ["/usr/local/bin/run-on-host.sh"]

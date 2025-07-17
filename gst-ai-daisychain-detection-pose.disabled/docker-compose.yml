@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+    gst-ai-daisychain-detection-pose:
+      image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
+      restart: unless-stopped
+      network_mode: "host"
+      tty: true
+      stop_grace_period: 5s
+      command: /opt/gst/gst-ai-daisychain-detection-pose --config-file /var/sota/compose-apps/gst-ai-daisychain-detection-pose/config.json
+      volumes:
+        - /opt:/opt

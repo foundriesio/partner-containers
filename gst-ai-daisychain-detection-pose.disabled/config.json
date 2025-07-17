@@ -2,8 +2,8 @@
   "input-file": "/opt/gst/media/video.mp4",
   "detection-model": "/opt/gst/models/yolox_quantized.tflite",
   "detection-labels": "/opt/gst/labels/detection.labels",
-  "classification-model": "/opt/gst/models/inception_v3_quantized.tflite",
-  "classification-labels": "/opt/gst/labels/imagenet_labels.txt",
+  "pose-model": "/opt/gst/models/hrnet_pose_quantized.tflite",
+  "pose-labels": "/opt/gst/labels/hrnet_pose.labels",
   "detection-constants": "Yolox,q-offsets=<38.0, 0.0, 0.0>,q-scales=<3.6678993701934814, 0.003665505675598979, 1.0>;",
-  "classification-constants": "Inceptionv3,q-offsets=<38.0>,q-scales=<0.18113909661769867>;"
+  "pose-constants": "hrnet,q-offsets=<0.0>,q-scales=<0.0036187185905873775>;"
 }

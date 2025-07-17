@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+    gst-ai-face_detection:
+      image: hub.foundries.io/${FACTORY}/qimsdk-lmp:latest
+      restart: unless-stopped
+      network_mode: "host"
+      tty: true
+      stop_grace_period: 5s
+      command: /opt/gst/gst-ai-face-detection --config-file /var/sota/compose-apps/gst-ai-face-detection/config.json
+      volumes:
+        - /opt:/opt

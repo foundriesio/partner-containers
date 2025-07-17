@@ -1,0 +1,13 @@
+{
+  "camera": 0,
+  "ml-framework":"tflite",
+  "face-detection-model":"/opt/gst/models/face_det_lite_quantized.tflite",
+  "face-landmark-model":"/opt/gst/models/facemap_3dmm_quantized.tflite",
+  "face-recognition-model":"/opt/gst/models/face_attrib_net_quantized.tflite",
+  "face-detection-labels": "/opt/gst/labels/face_detection.labels",
+  "face-landmark-labels": "/opt/gst/labels/face_landmark.labels",
+  "face-recognition-labels": "/opt/gst/labels/face_recognition.labels",
+  "face-detection-constants": "DET,q-offsets=<212.0, 13.0, 104.0>,q-scales=<0.03522835671901703, 0.2084927260875702, 0.14496992528438568>;",
+  "face-landmark-constants":"DMM,q-offsets=<211.0>,q-scales=<0.06002335250377655>;",
+  "face-recognition-constants":"qfr,q-offsets=<118.0, 153.0, 124.0, 129.0, 126.0, 0.0>,q-scales=<0.1920301616191864, 0.00790862925350666, 0.06760891526937485, 0.03350716456770897, 0.08887078613042831, 0.00390625>;"
+}

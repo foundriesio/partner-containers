@@ -1,9 +1,10 @@
 {
   "camera": 0,
-  "ml-framework": "snpe",
-  "yolo-model-type": "yolonas",
-  "model": "/opt/gst/models/yolonas.dlc",
-  "labels": "/opt/gst/labels/yolonas.labels",
+  "ml-framework": "tflite",
+  "yolo-model-type": "yolox",
+  "model": "/opt/gst/models/yolox_quantized.tflite",
+  "labels": "/opt/gst/labels/detection.labels",
+  "constants": "Yolox,q-offsets=<38.0, 0.0, 0.0>,q-scales=<3.6678993701934814, 0.003665505675598979, 1.0>;",
   "threshold": 40,
   "runtime": "dsp"
 }
