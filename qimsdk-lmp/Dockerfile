@@ -31,15 +31,15 @@ RUN \
 #######################################################################
 FROM debian:bullseye AS apt-updated
 
-# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.4-rel
-# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70018-50/overview.html (QLI 1.4 release)
-# Dependencies: Qualcomm AI® Runtime SDK v2.32 and LiteRT (or TFLite) v2.16.1
+# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.5-rel
+# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-50/overview.html (QLI 1.5 release)
+# Dependencies: Qualcomm AI® Runtime SDK v2.35 and LiteRT (or TFLite) v2.17.0
 # NOTE: This is located in the apt-updated build step for inheritance reasons
 ARG gst_plugins_qti_oss_tag=LE.QCQIMPRODUCT.1.0.r1-05900-QIM.0
-ARG qli_sample_apps_release=GA1.4-rel
-ARG qair_sdk_release=v2.32
+ARG qli_sample_apps_release=GA1.5-rel
+ARG qair_sdk_release=v2.35
 ARG qli_machine=QCS6490
-ARG hf_model_tag=v0.32.0
+ARG hf_model_tag=v0.34.3
 
 RUN apt update
 

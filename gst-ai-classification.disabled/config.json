@@ -3,7 +3,7 @@
   "ml-framework": "tflite",
   "model": "/opt/gst/models/inception_v3_quantized.tflite",
   "labels": "/opt/gst/labels/classification.labels",
-  "constants": "Inceptionv3,q-offsets=<38.0>,q-scales=<0.18113909661769867>;",
+  "constants": "Inceptionv3,q-offsets=<38.0>,q-scales=<0.18113908171653748>;",
   "threshold": 40,
   "runtime": "dsp"
 }
