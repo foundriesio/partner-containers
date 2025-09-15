@@ -30,21 +30,13 @@ RUN \
 
 #######################################################################
 FROM debian:bullseye AS apt-updated
-
-# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.5-rel
-# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-50/overview.html (QLI 1.5 release)
-# Dependencies: Qualcomm AI® Runtime SDK v2.35 and LiteRT (or TFLite) v2.17.0
-# NOTE: This is located in the apt-updated build step for inheritance reasons
-ARG gst_plugins_qti_oss_tag=LE.QCQIMPRODUCT.1.0.r1-05900-QIM.0
-ARG qli_sample_apps_release=GA1.5-rel
-ARG qair_sdk_release=v2.35
-ARG qli_machine=QCS6490
-ARG hf_model_tag=v0.34.3
-
 RUN apt update
 
 #######################################################################
 FROM apt-updated AS gst-sample-apps
+
+# QLI 1.5 release
+ARG gst_plugins_qti_oss_tag=LE.QCQIMPRODUCT.1.0.r1-05900-QIM.0
 
 RUN apt install -y git
 
@@ -58,6 +50,15 @@ RUN \
 
 #######################################################################
 FROM apt-updated AS ai-hub-models
+
+# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.5-rel
+# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-50/overview.html (QLI 1.5 release)
+# Dependencies: Qualcomm AI® Runtime SDK v2.35 and LiteRT (or TFLite) v2.17.0
+# NOTE: This is located in the apt-updated build step for inheritance reasons
+ARG qli_sample_apps_release=GA1.5-rel
+ARG qair_sdk_release=v2.35
+ARG qli_machine=QCS6490
+ARG hf_model_tag=v0.34.3
 
 RUN apt install -y wget unzip
 
