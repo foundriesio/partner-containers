@@ -2,8 +2,8 @@
   "camera": 0,
   "ml-framework": "tflite",
   "model": "/opt/gst/models/inception_v3_quantized.tflite",
-  "labels": "/opt/gst/labels/imagenet_labels.txt",
-  "constants": "Inceptionv3,q-offsets=<38.0>,q-scales=<0.18113908171653748>;",
+  "labels": "/opt/gst/labels/classification.json",
   "threshold": 40,
-  "runtime": "dsp"
+  "runtime": "dsp",
+  "output-type": "waylandsink"
 }

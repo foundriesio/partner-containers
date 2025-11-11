@@ -2,8 +2,7 @@
   "camera": 0,
   "ml-framework": "tflite",
   "model": "/opt/gst/models/face_det_lite_quantized.tflite",
-  "labels": "/opt/gst/labels/face_detection.labels",
-  "constants": "qfd,q-offsets=<206.0, 27.0, 114.0>,q-scales=<0.03594229742884636, 0.08854018896818161, 0.11054162681102753>;",
+  "labels": "/opt/gst/labels/face_detection.json",
   "threshold": 51,
   "runtime": "dsp"
 }

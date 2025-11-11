@@ -3,8 +3,8 @@
   "ml-framework": "tflite",
   "yolo-model-type": "yolox",
   "model": "/opt/gst/models/yolox_quantized.tflite",
-  "labels": "/opt/gst/labels/detection.labels",
-  "constants": "Yolox,q-offsets=<51.0, 0.0, 0.0>,q-scales=<4.360053062438965, 0.0037477801088243723, 1.0>;",
+  "labels": "/opt/gst/labels/yolox.json",
   "threshold": 40,
-  "runtime": "dsp"
+  "runtime": "dsp",
+  "output-type": "waylandsink"
 }

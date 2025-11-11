@@ -35,8 +35,8 @@ RUN apt update
 #######################################################################
 FROM apt-updated AS gst-sample-apps
 
-# QLI 1.5 release
-ARG gst_plugins_qti_oss_tag=LE.QCQIMPRODUCT.1.0.r1-05900-QIM.0
+# QLI 1.6 release
+ARG gst_plugins_qti_oss_tag=LE.QCQIMPRODUCT.1.0.r1-06200-QIM.0
 
 RUN apt install -y git
 
@@ -51,36 +51,36 @@ RUN \
 #######################################################################
 FROM apt-updated AS ai-hub-models
 
-# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.5-rel
-# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-50/overview.html (QLI 1.5 release)
-# Dependencies: Qualcomm AI® Runtime SDK v2.35 and LiteRT (or TFLite) v2.17.0
+# Release: https://github.com/quic/sample-apps-for-qualcomm-linux/releases/tag/GA1.6-rel
+# Doc: https://docs.qualcomm.com/bundle/publicresource/topics/80-70022-50/overview.html (QLI 1.6 release: 2025-10-16)
+# Dependencies: Qualcomm AI® Runtime SDK v2.38 and LiteRT (or TFLite) v2.16.1
 # NOTE: This is located in the apt-updated build step for inheritance reasons
-ARG qli_sample_apps_release=GA1.5-rel
-ARG qair_sdk_release=v2.35
+ARG qli_sample_apps_release=GA1.6-rel
+ARG qair_sdk_release=v2.38
 ARG qli_machine=QCS6490
-ARG hf_model_tag=v0.34.3
+ARG hf_model_tag=v0.40.1
 
 RUN apt install -y wget unzip
 
 RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/${qli_sample_apps_release}/${qair_sdk_release}_${qli_machine}.zip > models.zip && unzip models.zip && mv ${qair_sdk_release}_${qli_machine}/ ./models && rm models.zip
-RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/${qli_sample_apps_release}/labels.zip > labels.zip && unzip labels.zip && rm labels.zip
+# GA1.6-rel is missing labels.zip; there was a GA1.6-labels release on the same day instead (not sure if this will continue)
+# RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/${qli_sample_apps_release}/labels.zip > labels.zip && unzip labels.zip && rm labels.zip
+RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.6-labels/labels.zip > labels.zip && unzip labels.zip && rm labels.zip
 RUN wget -O- https://cdn.foundries.io/aihub-models/media-2024-10-18.tar.gz | tar -xzv
 
 # HuggingFace TFLITE models
-RUN wget -O models/face_attrib_net_quantized.tflite https://huggingface.co/qualcomm/Facial-Attribute-Detection/resolve/${hf_model_tag}/Facial-Attribute-Detection_w8a8.tflite
+# Use the same order from: https://github.com/quic/sample-apps-for-qualcomm-linux/blob/GA1.6-rel/download_artifacts.sh#L180
+RUN wget -O models/inception_v3_quantized.tflite https://huggingface.co/qualcomm/Inception-v3/resolve/${hf_model_tag}/Inception-v3_w8a8.tflite
+RUN wget -O models/deeplabv3_plus_mobilenet_quantized.tflite https://huggingface.co/qualcomm/DeepLabV3-Plus-MobileNet/resolve/${hf_model_tag}/DeepLabV3-Plus-MobileNet_w8a8.tflite
+RUN wget -O models/midas_quantized.tflite https://huggingface.co/qualcomm/Midas-V2/resolve/${hf_model_tag}/Midas-V2_w8a8.tflite
+RUN wget -O models/hrnet_pose_quantized.tflite https://huggingface.co/qualcomm/HRNetPose/resolve/${hf_model_tag}/HRNetPose_w8a8.tflite
+RUN wget -O models/quicksrnetsmall_quantized.tflite https://huggingface.co/qualcomm/QuickSRNetSmall/resolve/${hf_model_tag}/QuickSRNetSmall_w8a8.tflite
 RUN wget -O models/face_det_lite_quantized.tflite https://huggingface.co/qualcomm/Lightweight-Face-Detection/resolve/${hf_model_tag}/Lightweight-Face-Detection_w8a8.tflite
 RUN wget -O models/facemap_3dmm_quantized.tflite https://huggingface.co/qualcomm/Facial-Landmark-Detection/resolve/${hf_model_tag}/Facial-Landmark-Detection_w8a8.tflite
-RUN wget -O models/ffnet_78s_lowres_quantized.tflite https://huggingface.co/qualcomm/FFNet-78S-LowRes/resolve/${hf_model_tag}/FFNet-78S-LowRes_w8a8.tflite
-RUN wget -O models/hrnet_pose_quantized.tflite https://huggingface.co/qualcomm/HRNetPose/resolve/${hf_model_tag}/HRNetPose_w8a8.tflite
-RUN wget -O models/inception_v3_quantized.tflite https://huggingface.co/qualcomm/Inception-v3/resolve/${hf_model_tag}/Inception-v3_w8a8.tflite
-RUN wget -O models/midas_quantized.tflite https://huggingface.co/qualcomm/Midas-V2/resolve/${hf_model_tag}/Midas-V2_w8a8.tflite
-RUN wget -O models/quicksrnetsmall_quantized.tflite https://huggingface.co/qualcomm/QuickSRNetSmall/resolve/${hf_model_tag}/QuickSRNetSmall_w8a8.tflite
-RUN wget -O models/yamnet.tflite https://huggingface.co/qualcomm/YamNet/resolve/${hf_model_tag}/YamNet.tflite
+RUN wget -O models/face_attrib_net_quantized.tflite https://huggingface.co/qualcomm/Facial-Attribute-Detection/resolve/${hf_model_tag}/Facial-Attribute-Detection_w8a8.tflite
+# YamNet.tflite file is missing from the current HuggingFace release
+# RUN wget -O models/yamnet.tflite https://huggingface.co/qualcomm/YamNet/resolve/${hf_model_tag}/YamNet.tflite
 RUN wget -O models/yolox_quantized.tflite https://huggingface.co/qualcomm/Yolo-X/resolve/${hf_model_tag}/Yolo-X_w8a8.tflite
-
-# Extra label files from Github
-RUN wget -O labels/monodepth.labels https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/tags/${qli_sample_apps_release}/artifacts/labels/monodepth.labels
-RUN wget -O labels/detection.labels https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/tags/${qli_sample_apps_release}/artifacts/labels/detection.labels
 
 # Media files
 RUN mkdir -p data media
@@ -93,7 +93,7 @@ RUN wget -O media/video-flac.mp4 https://raw.githubusercontent.com/quic/sample-a
 RUN wget -O media/video-mp3.mp4 https://raw.githubusercontent.com/quic/sample-apps-for-qualcomm-linux/refs/heads/main/artifacts/videos/video-mp3.mp4
 
 # Fix locations
-RUN sed -i 's|/etc/data/|/opt/gst/data/|g' labels/face_landmark.labels
+RUN sed -i 's|/etc/data/|/opt/gst/data/|g' labels/facemap_3dmm_settings.json
 
 RUN chown 1000:1000 models/* labels/* data/* media/*
 

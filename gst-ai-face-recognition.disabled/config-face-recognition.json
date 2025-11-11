@@ -4,10 +4,8 @@
   "face-detection-model":"/opt/gst/models/face_det_lite_quantized.tflite",
   "face-landmark-model":"/opt/gst/models/facemap_3dmm_quantized.tflite",
   "face-recognition-model":"/opt/gst/models/face_attrib_net_quantized.tflite",
-  "face-detection-labels": "/opt/gst/labels/face_detection.labels",
-  "face-landmark-labels": "/opt/gst/labels/face_landmark.labels",
-  "face-recognition-labels": "/opt/gst/labels/face_recognition.labels",
-  "face-detection-constants": "DET,q-offsets=<206.0, 27.0, 114.0>,q-scales=<0.03594229742884636, 0.08854018896818161, 0.11054162681102753>;",
-  "face-landmark-constants":"DMM,q-offsets=<128.0>,q-scales=<0.32761144638061523>;",
-  "face-recognition-constants":"qfr,q-offsets=<124.0, 153.0, 124.0, 124.0, 126.0, 0.0>,q-scales=<0.19442088901996613, 0.00789624359458685, 0.06760904937982559, 0.04858217015862465, 0.08885791897773743, 0.00390625>;"
+  "face-detection-labels": "/opt/gst/labels/face_detection.json",
+  "face-recognition-labels": "/opt/gst/labels/face_recognition.json",
+  "face-recognition-settings": "/opt/gst/labels/face_recognition_settings.json",
+  "facemap-3dmm-settings": "/opt/gst/labels/facemap_3dmm_settings.json"
 }

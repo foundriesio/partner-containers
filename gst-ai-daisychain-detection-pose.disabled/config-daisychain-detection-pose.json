@@ -1,9 +1,10 @@
 {
   "input-file": "/opt/gst/media/video.mp4",
+    "pose-runtime":"dsp",
+    "detection-runtime":"dsp",
   "detection-model": "/opt/gst/models/yolox_quantized.tflite",
-  "detection-labels": "/opt/gst/labels/detection.labels",
+  "detection-labels": "/opt/gst/labels/yolox.json",
   "pose-model": "/opt/gst/models/hrnet_pose_quantized.tflite",
-  "pose-labels": "/opt/gst/labels/hrnet_pose.labels",
-  "detection-constants": "Yolox,q-offsets=<51.0, 0.0, 0.0>,q-scales=<4.360053062438965, 0.0037477801088243723, 1.0>;",
-  "pose-constants": "hrnet,q-offsets=<0.0>,q-scales=<0.0036187185905873775>;"
+  "pose-labels": "/opt/gst/labels/hrnet_pose.json",
+    "pose-settings-path":"/opt/gst/labels/hrnet_settings.json"
 }
