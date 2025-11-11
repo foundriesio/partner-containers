@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst/gst-ai-parallel-inference --config-file /var/sota/compose-apps/gst-ai-parallel-inference/config.json
+      command: /opt/gst/gst-ai-parallel-inference --config-file /var/sota/compose-apps/gst-ai-parallel-inference/config-parallel-inference.json
       volumes:
         - /opt:/opt

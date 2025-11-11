@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst/gst-ai-face-recognition --config-file /var/sota/compose-apps/gst-ai-face-recognition/config.json
+      command: /opt/gst/gst-ai-face-recognition --config-file /var/sota/compose-apps/gst-ai-face-recognition/config-face-recognition.json
       volumes:
         - /opt:/opt

@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command:  /opt/gst/gst-ai-classification --config-file=/var/sota/compose-apps/gst-ai-classification/config.json
+      command:  /opt/gst/gst-ai-classification --config-file=/var/sota/compose-apps/gst-ai-classification/config_classification.json
       volumes:
         - /opt:/opt

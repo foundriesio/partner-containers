@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst/gst-ai-daisychain-detection-classification --config-file /var/sota/compose-apps/gst-ai-daisychain-detection-classification/config.json
+      command: /opt/gst/gst-ai-daisychain-detection-classification --config-file /var/sota/compose-apps/gst-ai-daisychain-detection-classification/config_daisychain_detection_classification.json
       volumes:
         - /opt:/opt

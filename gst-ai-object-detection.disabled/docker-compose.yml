@@ -7,6 +7,6 @@ services:
       network_mode: "host"
       tty: true
       stop_grace_period: 5s
-      command: /opt/gst/gst-ai-object-detection --config-file /var/sota/compose-apps/gst-ai-object-detection/config.json
+      command: /opt/gst/gst-ai-object-detection --config-file /var/sota/compose-apps/gst-ai-object-detection/config_detection.json
       volumes:
         - /opt:/opt
