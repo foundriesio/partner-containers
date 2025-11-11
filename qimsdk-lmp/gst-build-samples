@@ -9,7 +9,7 @@ cd /src/gst-plugins-qti-oss/gst-sample-apps
 rm -rf gst-webrtc-sendrecv-example
 
 # These require qmmf-sdk which is also a large/tricky install
-rm -rf gst-camera-burst-capture-example gst-camera-metadata-example gst-camera-per-port-example
+rm -rf gst-camera-burst-capture-example gst-camera-fd-stream-example gst-camera-metadata-example gst-camera-per-port-example
 
 APPS=$(ls)
 
