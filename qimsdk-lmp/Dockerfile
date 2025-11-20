@@ -45,7 +45,17 @@ RUN \
 	cd /src && \
 	git clone https://git.codelinaro.org/clo/le/platform/vendor/qcom-opensource/gst-plugins-qti-oss.git && \
 	cd gst-plugins-qti-oss && \
-	git checkout ${gst_plugins_qti_oss_tag} && \
+	git checkout ${gst_plugins_qti_oss_tag}
+
+# TEMP: Patch to fix daisychain-detection-classification regression
+COPY 0001-gst-ai-daisychain-detection-classification-includes.patch /src
+# TEMP: Patch to avoid log spam for warning
+COPY 0002-gst-sample-apps-set-log_level-to-error-only-for-dsp-.patch /src
+
+RUN \
+	cd /src/gst-plugins-qti-oss && \
+	git apply ../0001-gst-ai-daisychain-detection-classification-includes.patch && \
+	git apply ../0002-gst-sample-apps-set-log_level-to-error-only-for-dsp-.patch && \
 	chown -R 1000:1000 /src
 
 #######################################################################

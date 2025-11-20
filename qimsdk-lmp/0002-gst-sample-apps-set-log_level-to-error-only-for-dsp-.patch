@@ -1,0 +1,174 @@
+From 8be7a3523dbc33cc97d2eaba7aa786ff3fdf53fc Mon Sep 17 00:00:00 2001
+From: Michael Scott <mike@foundries.io>
+Date: Wed, 19 Nov 2025 16:21:53 -0800
+Subject: [PATCH 2/2] gst-sample-apps: set log_level to error only for dsp
+ modes
+
+This avoids a repeating warning in the logs:
+<W> Logs will be sent to the system's default channel
+
+Signed-off-by: Michael Scott <mike@foundries.io>
+---
+ gst-sample-apps/gst-ai-classification/main.c                  | 2 +-
+ .../gst-ai-daisychain-detection-classification/main.c         | 4 ++--
+ gst-sample-apps/gst-ai-daisychain-detection-pose/main.c       | 4 ++--
+ gst-sample-apps/gst-ai-face-detection/main.c                  | 2 +-
+ gst-sample-apps/gst-ai-face-recognition/main.c                | 2 +-
+ gst-sample-apps/gst-ai-monodepth/main.c                       | 2 +-
+ gst-sample-apps/gst-ai-object-detection/main.c                | 2 +-
+ gst-sample-apps/gst-ai-parallel-inference/main.c              | 2 +-
+ gst-sample-apps/gst-ai-pose-detection/main.c                  | 2 +-
+ gst-sample-apps/gst-ai-segmentation/main.c                    | 2 +-
+ 10 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/gst-sample-apps/gst-ai-classification/main.c b/gst-sample-apps/gst-ai-classification/main.c
+index c6ab0711..6a7aeb39 100644
+--- a/gst-sample-apps/gst-ai-classification/main.c
++++ b/gst-sample-apps/gst-ai-classification/main.c
+@@ -731,7 +731,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else if (options->use_dsp) {
+       g_print ("Using DSP Delegate\n");
+       delegate_options = gst_structure_from_string (
+-          "QNNExternalDelegate,backend_type=htp;", NULL);
++          "QNNExternalDelegate,backend_type=htp,log_level=(string)1;", NULL);
+       g_object_set (G_OBJECT (qtimlelement), "model", options->model_path,
+           "delegate", GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+       g_object_set (G_OBJECT (qtimlelement),
+diff --git a/gst-sample-apps/gst-ai-daisychain-detection-classification/main.c b/gst-sample-apps/gst-ai-daisychain-detection-classification/main.c
+index 42a240dc..111504ba 100644
+--- a/gst-sample-apps/gst-ai-daisychain-detection-classification/main.c
++++ b/gst-sample-apps/gst-ai-daisychain-detection-classification/main.c
+@@ -899,7 +899,7 @@ create_pipe (GstAppContext * appctx, const GstAppOptions options)
+   if (options.classification_use_dsp) {
+     g_print ("Using DSP delegate with TFLITE for Classification\n");
+     delegate_options =
+-        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp",
++        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1",
+         NULL);
+     gint valid_elements = 0;
+     for (gint i = 1; i < TFLITE_ELEMENT_COUNT; i++) {
+@@ -934,7 +934,7 @@ create_pipe (GstAppContext * appctx, const GstAppOptions options)
+       goto error_clean_elements;
+     }
+     delegate_options =
+-        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp",
++        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1",
+         NULL);
+     g_object_set (G_OBJECT (qtimlelement[GST_DETECTION_TYPE_YOLO]), "delegate",
+         GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+diff --git a/gst-sample-apps/gst-ai-daisychain-detection-pose/main.c b/gst-sample-apps/gst-ai-daisychain-detection-pose/main.c
+index 79a8515e..e431415b 100644
+--- a/gst-sample-apps/gst-ai-daisychain-detection-pose/main.c
++++ b/gst-sample-apps/gst-ai-daisychain-detection-pose/main.c
+@@ -879,7 +879,7 @@ create_pipe (GstAppContext * appctx, const GstAppOptions *options)
+   if (options->pose_use_dsp) {
+     g_print ("Using DSP delegate with TFLITE for Pose\n");
+     delegate_options =
+-        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp",
++        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1",
+         NULL);
+     if (!delegate_options) {
+       g_printerr ("Failed to create delegate options structure\n");
+@@ -896,7 +896,7 @@ create_pipe (GstAppContext * appctx, const GstAppOptions *options)
+   if (options->detection_use_dsp) {
+     g_print ("Using DSP delegate with TFLITE for Detection\n");
+     delegate_options =
+-        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp",
++        gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1",
+         NULL);
+     if (!delegate_options) {
+       g_printerr ("Failed to create delegate options structure\n");
+diff --git a/gst-sample-apps/gst-ai-face-detection/main.c b/gst-sample-apps/gst-ai-face-detection/main.c
+index a3b38599..82f2992a 100644
+--- a/gst-sample-apps/gst-ai-face-detection/main.c
++++ b/gst-sample-apps/gst-ai-face-detection/main.c
+@@ -517,7 +517,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else if (options->use_dsp) {
+       g_print ("Using DSP Delegate\n");
+       delegate_options =
+-          gst_structure_from_string ("QNNExternalDelegate,backend_type=htp;",
++          gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1;",
+           NULL);
+       g_object_set (G_OBJECT (qtimlelement), "model", options->model_path,
+           "delegate", GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+diff --git a/gst-sample-apps/gst-ai-face-recognition/main.c b/gst-sample-apps/gst-ai-face-recognition/main.c
+index c3beff9e..081bdd2d 100644
+--- a/gst-sample-apps/gst-ai-face-recognition/main.c
++++ b/gst-sample-apps/gst-ai-face-recognition/main.c
+@@ -546,7 +546,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else {
+       g_print ("Using DSP Delegate\n");
+       delegate_options =
+-          gst_structure_from_string ("QNNExternalDelegate,backend_type=htp;",
++          gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1;",
+           NULL);
+       g_object_set (G_OBJECT (qtimlelement[i]), "delegate",
+           GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+diff --git a/gst-sample-apps/gst-ai-monodepth/main.c b/gst-sample-apps/gst-ai-monodepth/main.c
+index 313aa90f..8523e15b 100644
+--- a/gst-sample-apps/gst-ai-monodepth/main.c
++++ b/gst-sample-apps/gst-ai-monodepth/main.c
+@@ -554,7 +554,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else if (options->use_dsp) {
+       g_print ("Using DSP Delegate\n");
+       delegate_options = gst_structure_from_string (
+-          "QNNExternalDelegate,backend_type=htp;", NULL);
++          "QNNExternalDelegate,backend_type=htp,log_level=(string)1;", NULL);
+       g_object_set (G_OBJECT (qtimlelement), "model", options->model_path,
+           "delegate", GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+       g_object_set (G_OBJECT (qtimlelement),
+diff --git a/gst-sample-apps/gst-ai-object-detection/main.c b/gst-sample-apps/gst-ai-object-detection/main.c
+index 610fc037..a5cb45bd 100644
+--- a/gst-sample-apps/gst-ai-object-detection/main.c
++++ b/gst-sample-apps/gst-ai-object-detection/main.c
+@@ -763,7 +763,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else if (options->use_dsp) {
+       g_print ("Using DSP delegate\n");
+       delegate_options = gst_structure_from_string (
+-          "QNNExternalDelegate,backend_type=htp", NULL);
++          "QNNExternalDelegate,backend_type=htp,log_level=(string)1", NULL);
+       g_object_set (G_OBJECT (qtimlelement), "model", options->model_path,
+           "delegate", GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+       g_object_set (G_OBJECT (qtimlelement),
+diff --git a/gst-sample-apps/gst-ai-parallel-inference/main.c b/gst-sample-apps/gst-ai-parallel-inference/main.c
+index 0401b877..2a396524 100644
+--- a/gst-sample-apps/gst-ai-parallel-inference/main.c
++++ b/gst-sample-apps/gst-ai-parallel-inference/main.c
+@@ -664,7 +664,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     if (options->pipeline_data[i].delegate == GST_ML_TFLITE_DELEGATE_EXTERNAL) {
+       delegate_options = gst_structure_from_string (
+           "QNNExternalDelegate,backend_type=htp,htp_device_id=(string)0,\
+-          htp_performance_mode=(string)2;", NULL);
++          htp_performance_mode=(string)2,log_level=(string)1;", NULL);
+       g_object_set (G_OBJECT (qtimlelement[i]),
+           "external-delegate-path", "libQnnTFLiteDelegate.so", NULL);
+       g_object_set (G_OBJECT (qtimlelement[i]),
+diff --git a/gst-sample-apps/gst-ai-pose-detection/main.c b/gst-sample-apps/gst-ai-pose-detection/main.c
+index 2ce6a4a9..1bddf4a8 100644
+--- a/gst-sample-apps/gst-ai-pose-detection/main.c
++++ b/gst-sample-apps/gst-ai-pose-detection/main.c
+@@ -709,7 +709,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else if (options->use_dsp) {
+       g_print ("Using DSP Delegate\n");
+       delegate_options = gst_structure_from_string (
+-          "QNNExternalDelegate,backend_type=htp;", NULL);
++          "QNNExternalDelegate,backend_type=htp,log_level=(string)1;", NULL);
+       g_object_set (G_OBJECT (qtimlelement), "model", options->model_path,
+           "delegate", GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+       g_object_set (G_OBJECT (qtimlelement),
+diff --git a/gst-sample-apps/gst-ai-segmentation/main.c b/gst-sample-apps/gst-ai-segmentation/main.c
+index 6484feac..0daf793e 100644
+--- a/gst-sample-apps/gst-ai-segmentation/main.c
++++ b/gst-sample-apps/gst-ai-segmentation/main.c
+@@ -508,7 +508,7 @@ create_pipe (GstAppContext * appctx, GstAppOptions * options)
+     } else if (options->use_dsp) {
+       g_print ("Using DSP Delegate");
+       delegate_options =
+-          gst_structure_from_string ("QNNExternalDelegate,backend_type=htp;",
++          gst_structure_from_string ("QNNExternalDelegate,backend_type=htp,log_level=(string)1;",
+           NULL);
+       g_object_set (G_OBJECT (qtimlelement), "model", options->model_path,
+           "delegate", GST_ML_TFLITE_DELEGATE_EXTERNAL, NULL);
+-- 
+2.51.2
+
