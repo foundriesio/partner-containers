@@ -78,6 +78,18 @@ RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/dow
 RUN wget -O- https://github.com/quic/sample-apps-for-qualcomm-linux/releases/download/GA1.6-labels/labels.zip > labels.zip && unzip labels.zip && rm labels.zip
 RUN wget -O- https://cdn.foundries.io/aihub-models/media-2024-10-18.tar.gz | tar -xzv
 
+# TEMP: the classification.json in the GA1.6 release has an "off by 1 error" let's remove it and use our custom one that starts with "tench" as index 0 (instead of index 1)
+RUN rm labels/classification.json
+COPY classification.json /labels/
+
+# TEMP: Remove the inceptionv3.dlc from the GA1.6 release: it's been modified to use "tench" as index 1
+# Instead, use the standard indexing dlc model from HuggingFace (below)
+# This means we can use the same classification.json file between the tflite and dlc models
+RUN rm models/inceptionv3.dlc
+
+# HuggingFace DLC models
+RUN wget -O models/inceptionv3.dlc https://huggingface.co/qualcomm/Inception-v3/resolve/${hf_model_tag}/Inception-v3_w8a8.dlc
+
 # HuggingFace TFLITE models
 # Use the same order from: https://github.com/quic/sample-apps-for-qualcomm-linux/blob/GA1.6-rel/download_artifacts.sh#L180
 RUN wget -O models/inception_v3_quantized.tflite https://huggingface.co/qualcomm/Inception-v3/resolve/${hf_model_tag}/Inception-v3_w8a8.tflite
